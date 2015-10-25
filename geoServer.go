@@ -37,14 +37,17 @@ func main() {
 	http.ListenAndServe("localhost:1111", router)
 }
 
+//Create and return a new session
 func getMongoSession() *mgo.Session {
 	//Connect to MongoDB
 	sess, err := mgo.Dial("mongodb://admin:root123@ds043324.mongolab.com:43324/cmpe273")
 
+	//panic if connection failed
 	if err != nil {
 		panic(err)
 	}
 
+	//to make data reading consistent across sequential quesries in same session
 	sess.SetMode(mgo.Monotonic, true)
 
 	return sess
